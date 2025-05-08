@@ -34,9 +34,10 @@ class RestaurantScreen extends StatelessWidget {
     final totalRestaurants = restoKeys.length;
 
     void goToNextRestaurant(BuildContext context) {
-      final nextIndex = restaurantIndex + 1;
+      final nextIndex = (restaurantIndex + 1) % totalRestaurants;
 
-      if (nextIndex >= totalRestaurants) {
+      if (nextIndex == initialRestaurantIndex) {
+        // If we've come full circle, go to beverage screen
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => const BeverageScreen()),
@@ -124,31 +125,38 @@ class RestaurantScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 8),
+
+
                                 Expanded(
                                   flex: 3,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        food.name,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14,
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center, // optional
+                                      children: [
+                                        Text(
+                                          food.name,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        '₱${food.price.toStringAsFixed(2)}',
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.green,
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          '₱${food.price.toStringAsFixed(2)}',
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.green,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
+
                               ],
                             ),
                           ),

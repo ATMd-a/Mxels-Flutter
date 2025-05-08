@@ -14,14 +14,9 @@ class BeverageScreen extends StatelessWidget {
     final selectionProvider = Provider.of<SelectionProvider>(context, listen: false);
 
     // Collect all beverage items from all restaurants
-    final beverages = <FoodItem>[];
+    final beverages = RestaurantMenuData.beverageItems;
     final restoKeys = RestaurantMenuData.restoMenus.keys.toList();
-    for (var key in restoKeys) {
-      final items = RestaurantMenuData.restoMenus[key];
-      if (items != null) {
-        beverages.addAll(items.where((item) => item.category == 'Beverage'));
-      }
-    }
+
 
     void handleSelectBeverage(BuildContext context, FoodItem drink) {
       selectionProvider.selectItem("Beverage", drink);

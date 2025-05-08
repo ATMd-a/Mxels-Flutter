@@ -35,49 +35,39 @@ class CartScreen extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Order label + total
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0, vertical: 4.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Order ${orderIndex + 1}',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       '₱${orderTotal.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
               ),
-
-              // List items in this order
               ...order.entries.map((entry) {
-                String category = entry.key;
-                FoodItem food = entry.value;
+                final category = entry.key;
+                final food = entry.value;
 
                 return ListTile(
                   leading: Image.asset(food.imageUrl,
                       width: 50, height: 50, fit: BoxFit.cover),
                   title: Text(food.name),
-                  subtitle: Text(
-                      '₱${food.price.toStringAsFixed(2)} - $category'),
+                  subtitle: Text('₱${food.price.toStringAsFixed(2)} - $category'),
                   trailing: IconButton(
-                    icon: const Icon(Icons.remove_circle,
-                        color: Colors.red),
+                    icon: const Icon(Icons.remove_circle, color: Colors.red),
                     onPressed: () {
-                      // Remove item from cart
                       cartProvider.removeFromCart(orderIndex, category);
                     },
                   ),
                 );
               }).toList(),
-
               const Divider(),
             ],
           );
@@ -88,7 +78,6 @@ class CartScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Total price row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -109,11 +98,9 @@ class CartScreen extends StatelessWidget {
                 onPressed: orders.isEmpty
                     ? null
                     : () {
-                  // Proceed to checkout
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const CheckoutScreen()),
+                    MaterialPageRoute(builder: (context) => const CheckoutScreen()),
                   );
                 },
                 child: const Text('Proceed to Checkout'),

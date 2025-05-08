@@ -61,17 +61,33 @@ flutter:
   assets:
   - assets/jabee.png
   - assets/jolli_ricemeal.jpg
-  - assets/jolli_snacks.png
-  - assets/jolli_groupmeals.png
-  - assets/jolli_desserts.png
-  - assets/chow_snacks.png
-  - assets/chow_ricemeal.png
-  - assets/chow_groupmeals.png
-  - assets/chow_desserts.png
-  - assets/mang_ricemeals.png
-  - assets/mang_ricemeal1.png
-  - assets/mang_group.png
-  - assets/mang_dessert.png
+  - assets/jolli_ricemeal1.jpg
+  - assets/jolli_snacks.jpg
+  - assets/jolli_snacks1.jpg
+  - assets/jolli_groupmeals.jpg
+  - assets/jolli_groupmeals1.jpg
+  - assets/jolli_desserts.jpg
+  - assets/jolli_desserts1.jpg
+  - assets/chow_snacks.jpg
+  - assets/chow_snacks1.jpg
+  - assets/chow_ricemeal.jpg
+  - assets/chow_ricemeal1.jpg
+  - assets/chow_groupmeals.jpg
+  - assets/chow_groupmeals1.jpg
+  - assets/chow_desserts.jpg
+  - assets/chow_desserts1.jpg
+  - assets/green_snacks.jpg
+  - assets/green_snacks1.jpg
+  - assets/green_pizza.jpg
+  - assets/green_pizza1.jpg
+  - assets/green_pizza2.jpg
+  - assets/green_pizza3.jpg
+  - assets/mang_ricemeals.jpg
+  - assets/mang_ricemeals1.jpg
+  - assets/mang_group.jpg
+  - assets/mang_group1.jpg
+  - assets/mang_dessert.jpg
+  - assets/mang_dessert1.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
