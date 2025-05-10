@@ -177,7 +177,7 @@ class HomeScreen extends StatelessWidget {
                           borderRadius:
                           const BorderRadius.vertical(top: Radius.circular(12)),
                           child: Image.asset(
-                            'assets/mang_dessert.png',
+                            'assets/mang_dessert.jpg',
                             fit: BoxFit.cover,
                           ),
                         ),

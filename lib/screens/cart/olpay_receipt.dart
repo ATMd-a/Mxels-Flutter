@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+
+class OLPaymentReceiptScreen extends StatelessWidget {
+  final String paymentType;
+
+  const OLPaymentReceiptScreen({super.key, required this.paymentType});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = paymentType == 'GCash' ? Color(0xFF007DFE) : Color(0xFF06A555);
+    final logoPath = paymentType == 'GCash' ? 'assets/gcash_logo.png' : 'assets/maya_logo.png';
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Receipt')),
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(color: color),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              width: 380,
+              height: 500,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.black.withOpacity(0.1),
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(
+                    child: Text(
+                      'Successfully Paid To',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Center(
+                    child: Image.asset(
+                      logoPath,
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text('Mxels', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 12),
+                      Text('PHP 1000', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 12),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Amount Due', style: TextStyle(fontSize: 16)),
+                          Text(
+                            'Payment Method',
+                            style: TextStyle(fontSize: 16, color: color),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text('PHP 10,000', style: TextStyle(fontSize: 16)),
+                          Text(paymentType, style: const TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  const Text(
+                    'Ref No. 1243235',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const Text(
+                    '14 May 2025 03:00 PM',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 12),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Proceed'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

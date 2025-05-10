@@ -93,29 +93,33 @@ class BeverageScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Expanded(
                       flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            drink.name,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              drink.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            '₱${drink.price.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.green,
+                            Text(
+                              '₱${drink.price.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.green,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
+
                   ],
                 ),
               ),

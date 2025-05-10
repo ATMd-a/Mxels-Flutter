@@ -97,7 +97,7 @@ class RestaurantScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () => handleFoodSelection(context, food),
                           child: Container(
-                            height: 250,
+                            height: 270,
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                               color: Colors.white,

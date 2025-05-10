@@ -60,34 +60,49 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   - assets/jabee.png
-  - assets/jolli_ricemeal.jpg
-  - assets/jolli_ricemeal1.jpg
-  - assets/jolli_snacks.jpg
-  - assets/jolli_snacks1.jpg
-  - assets/jolli_groupmeals.jpg
-  - assets/jolli_groupmeals1.jpg
-  - assets/jolli_desserts.jpg
-  - assets/jolli_desserts1.jpg
-  - assets/chow_snacks.jpg
-  - assets/chow_snacks1.jpg
-  - assets/chow_ricemeal.jpg
-  - assets/chow_ricemeal1.jpg
-  - assets/chow_groupmeals.jpg
-  - assets/chow_groupmeals1.jpg
-  - assets/chow_desserts.jpg
-  - assets/chow_desserts1.jpg
-  - assets/green_snacks.jpg
-  - assets/green_snacks1.jpg
-  - assets/green_pizza.jpg
-  - assets/green_pizza1.jpg
-  - assets/green_pizza2.jpg
-  - assets/green_pizza3.jpg
-  - assets/mang_ricemeals.jpg
-  - assets/mang_ricemeals1.jpg
-  - assets/mang_group.jpg
-  - assets/mang_group1.jpg
-  - assets/mang_dessert.jpg
-  - assets/mang_dessert1.jpg
+  - assets/googlemaps.png
+  - assets/jollibee/jolli_ricemeal.jpg
+  - assets/jollibee/jolli_ricemeal1.jpg
+  - assets/jollibee/jolli_snacks.jpg
+  - assets/jollibee/jolli_snacks1.jpg
+  - assets/jollibee/jolli_groupmeals.jpg
+  - assets/jollibee/jolli_groupmeals1.jpg
+  - assets/jollibee/jolli_desserts.jpg
+  - assets/jollibee/jolli_desserts1.jpg
+  - assets/chowking/chow_snacks.jpg
+  - assets/chowking/chow_snacks1.jpg
+  - assets/chowking/chow_ricemeal.jpg
+  - assets/chowking/chow_ricemeal1.jpg
+  - assets/chowking/chow_groupmeals.jpg
+  - assets/chowking/chow_groupmeals1.jpg
+  - assets/chowking/chow_desserts.jpg
+  - assets/chowking/chow_desserts1.jpg
+  - assets/greenwich/green_snacks.jpg
+  - assets/greenwich/green_snacks1.jpg
+  - assets/greenwich/green_pizza.jpg
+  - assets/greenwich/green_pizza1.jpg
+  - assets/greenwich/green_pizza2.jpg
+  - assets/greenwich/green_pizza3.jpg
+  - assets/manginasal/mang_snacks.jpg
+  - assets/manginasal/mang_ricemeals.jpg
+  - assets/manginasal/mang_ricemeals1.jpg
+  - assets/manginasal/mang_group.jpg
+  - assets/manginasal/mang_group1.jpg
+  - assets/manginasal/mang_dessert.jpg
+  - assets/manginasal/mang_dessert1.jpg
+  - assets/bev/bev_soft.jpg
+  - assets/bev/bev_soft1.jpg
+  - assets/bev/bev_soft2.jpg
+  - assets/bev/bev_soft3.jpg
+  - assets/bev/bev_soft4.jpg
+  - assets/qrs/qr1.png
+  - assets/qrs/qr2.png
+  - assets/qrs/qr3.png
+  - assets/qrs/qr4.png
+  - assets/qrs/qr5.png
+  - assets/qrs/qr6.png
+  - assets/gcash_logo.png
+  - assets/maya_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
