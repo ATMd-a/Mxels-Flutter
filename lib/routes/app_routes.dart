@@ -12,6 +12,7 @@ import 'package:hlep/screens/cart/checkout_screen.dart';
 import 'package:hlep/screens/cart/olpayment.dart';
 import 'package:hlep/screens/home/beverage_screen.dart';
 import 'package:hlep/screens/cart/olpay_receipt.dart';
+import 'package:hlep/screens/home/eme.dart';
 
 class AppRoutes {
   static const String login = '/login';
@@ -27,6 +28,7 @@ class AppRoutes {
   static const String payment = '/payment';
   static const String olpayment = '/olpayment';
   static const String olreceipt = '/olreceipt';
+  static const String eme = '/eme';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -74,12 +76,16 @@ class AppRoutes {
 
 
       case olpayment:
-        if (args is String) {
+        if (args is Map<String, dynamic>) {
           return MaterialPageRoute(
-            builder: (_) => OLPaymentScreen(paymentType: args),
+            builder: (_) => OLPaymentScreen(
+              paymentType: args['paymentType'],
+              amount: args['amount'],
+            ),
           );
         }
         return _errorRoute();
+
       case olreceipt:
         if (args is String) {
           return MaterialPageRoute(
@@ -87,6 +93,19 @@ class AppRoutes {
           );
         }
         return _errorRoute();
+      case eme:
+        if (args is Map<String, dynamic> &&
+            args.containsKey('restaurantName') &&
+            args.containsKey('categorizedFoods')) {
+          return MaterialPageRoute(
+            builder: (_) => RestaurantMenuScreen(
+              restaurantName: args['restaurantName'],
+              categorizedFoods: args['categorizedFoods'],
+            ),
+          );
+        }
+        return _errorRoute();
+
       default:
         return _errorRoute();
     }

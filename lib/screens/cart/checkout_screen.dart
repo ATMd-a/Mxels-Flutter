@@ -21,7 +21,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     setState(() {
       _selectedPaymentMethod = method;
     });
-    Navigator.pop(context); // Go back to CheckoutScreen
+    Navigator.pop(context);
   }
 
   @override
@@ -29,13 +29,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cartProvider = Provider.of<CartProvider>(context);
     final orders = cartProvider.orders;
 
-    double getOrderTotal(Map<String, FoodItem> order) {
-      return order.values.fold(0, (sum, item) => sum + item.price);
-    }
+    double getOrderTotal(Map<String, FoodItem> order) =>
+        order.values.fold(0, (sum, item) => sum + item.price);
 
-    double getCartTotal() {
-      return orders.fold(0, (sum, order) => sum + getOrderTotal(order));
-    }
+    double getCartTotal() =>
+        orders.fold(0, (sum, order) => sum + getOrderTotal(order));
 
     Widget buildDropdownField({
       required String hint,
@@ -56,162 +54,203 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           underline: const SizedBox(),
           icon: const Icon(Icons.keyboard_arrow_down),
           hint: Text(hint),
-          items: items.map((item) {
-            return DropdownMenuItem(
-              value: item,
-              child: Text(item),
-            );
-          }).toList(),
+          items: items
+              .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+              .toList(),
         ),
       );
     }
 
+    const labelStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Checkout')),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Order Type', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  buildDropdownField(
-                    hint: 'Select Order Type',
-                    value: _selectedOrderType,
-                    items: ['Pickup', 'Delivery'],
-                    onChanged: (val) => setState(() => _selectedOrderType = val),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Order Type', style: labelStyle),
+              buildDropdownField(
+                hint: 'Select Order Type',
+                value: _selectedOrderType,
+                items: ['Pickup', 'Delivery'],
+                onChanged: (val) => setState(() => _selectedOrderType = val),
+              ),
+              const SizedBox(height: 16),
+
+              const Text('Store Address', style: labelStyle),
+              Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    'assets/googlemaps.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
                   ),
-                  const SizedBox(height: 16),
-                  const Text('Store Address', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.asset('assets/googlemaps.png', fit: BoxFit.cover, width: double.infinity),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text('Maharlika Highway, corner Dalahican Rd, Lucena, 4301 Quezon', style: TextStyle(fontSize: 16)),
-                  const SizedBox(height: 16),
-                  const Text('Payment Method', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  InkWell(
-                    onTap: () async {
-                      if (_selectedPaymentMethod == null) {
-                        // If not yet selected, go to selection screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => PaymentMethodScreen(onSelect: _handlePaymentSelection),
-                          ),
-                        );
-                      } else {
-                        // If already selected, go to OL payment screen
-                        if (_selectedPaymentMethod == 'GCash' || _selectedPaymentMethod == 'Maya Wallet') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => OLPaymentScreen(paymentType: _selectedPaymentMethod!),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Maharlika Highway, corner Dalahican Rd, Lucena, 4301 Quezon',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+
+              const Text('Payment Method', style: labelStyle),
+              buildDropdownField(
+                hint: 'Select Payment Method',
+                value: _selectedPaymentMethod,
+                items: ['GCash', 'Maya Wallet', 'Cash'],
+                onChanged: (val) => setState(() => _selectedPaymentMethod = val),
+              ),
+              const SizedBox(height: 16),
+
+              const Text('Order Summary', style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+
+              // Orders Summary
+              ...orders.map((order) {
+                final orderTotal = getOrderTotal(order);
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            _selectedPaymentMethod ?? '+ Add a Payment Method',
-                            style: const TextStyle(fontSize: 16),
+                            'Order ${orders.indexOf(order) + 1}',
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                          const Icon(Icons.arrow_forward_ios, size: 16),
+                          Text(
+                            '₱${orderTotal.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text('Order Summary', style: TextStyle(fontSize: 16)),
-                ],
-              ),
-            ),
-            // Order Summary
-            ...orders.map((order) {
-              final orderTotal = getOrderTotal(order);
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Order ${orders.indexOf(order) + 1}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        Text('₱${orderTotal.toStringAsFixed(2)}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, bottom: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: order.values.map((food) {
+                          return Text('• ${food.name}', style: TextStyle(fontSize: 16));
+                        }).toList(),
+                      ),
                     ),
-                  ),
-                  ...order.entries.map((entry) {
-                    String category = entry.key;
-                    FoodItem food = entry.value;
-                    return ListTile(
-                      leading: Image.asset(food.imageUrl, width: 50, height: 50, fit: BoxFit.cover),
-                      title: Text(food.name),
-                      subtitle: Text('₱${food.price.toStringAsFixed(2)} - $category'),
-                    );
-                  }).toList(),
-                  const Divider(),
-                ],
-              );
-            }).toList(),
-          ],
+
+                    const Divider(),
+                  ],
+                );
+              }),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(12),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Total:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Text('₱${getCartTotal().toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              ],
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: (_selectedOrderType != null && _selectedPaymentMethod != null)
-                    ? () {
-                  if (_selectedOrderType == 'Pickup') {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const PickupScreen()));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Order confirmed!')),
-                    );
-                  }
-                }
-                    : null,
-                child: const Text('Confirm Order'),
-              ),
-            ),
+            // Calculate subtotal and delivery
+            Builder(builder: (context) {
+              final subtotal = getCartTotal();
+              final isDelivery = _selectedOrderType == 'Delivery';
+              final deliveryFee = isDelivery ? 50.0 : 0.0;
+              final total = subtotal + deliveryFee;
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Subtotal:',
+                          style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                      Text('₱${subtotal.toStringAsFixed(2)}'),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Delivery Fee:',
+                          style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                      Text('₱${deliveryFee.toStringAsFixed(2)}'),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Total:',
+                          style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text('₱${total.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: (_selectedOrderType != null &&
+                          _selectedPaymentMethod != null)
+                          ? () {
+                        final isOnline = _selectedPaymentMethod == 'GCash' ||
+                            _selectedPaymentMethod == 'Maya Wallet';
+
+                        if (isOnline) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => OLPaymentScreen(
+                                paymentType: _selectedPaymentMethod!,
+                                amount: total,
+                              ),
+                            ),
+                          );
+                        } else if (_selectedOrderType == 'Pickup' &&
+                            _selectedPaymentMethod == 'Cash') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const PickupScreen(),
+                            ),
+                          );
+                        } else if (_selectedOrderType == 'Delivery' &&
+                            _selectedPaymentMethod == 'Cash') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Order confirmed!')),
+                          );
+                        }
+                      }
+                          : null,
+                      child: const Text('Continue'),
+                    ),
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       ),
+
     );
   }
 }

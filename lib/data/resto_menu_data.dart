@@ -218,4 +218,33 @@ class RestaurantMenuData {
       imageUrl: 'assets/bev/bev_soft3.jpg',
     ),
   ];
+
+  static final List<FoodItem> combos = [
+    FoodItem(
+      name: 'Combo A',
+      price: 35.0,
+      category: 'Combo',
+      imageUrl: 'assets/combos/comboA.jpg',
+    ),
+    FoodItem(
+      name: 'Combo B',
+      price: 35.0,
+      category: 'Combo',
+      imageUrl: 'assets/combos/comboB.jpg',
+    ),
+    FoodItem(
+      name: 'Combo C',
+      price: 35.0,
+      category: 'Combo',
+      imageUrl: 'assets/combos/comboC.jpg',
+    ),
+    FoodItem(
+      name: 'Combo D',
+      price: 30.0,
+      category: 'Combo',
+      imageUrl: 'assets/combos/comboD.jpg',
+    ),
+  ];
+
 }
+

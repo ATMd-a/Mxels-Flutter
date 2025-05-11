@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hlep/screens/auth/login_screen.dart';
 import 'package:hlep/screens/auth/phoneOTP_screen.dart';
 
-
-
 class phoneNumber extends StatelessWidget {
   const phoneNumber({super.key});
 
@@ -19,6 +17,7 @@ class phoneNumber extends StatelessWidget {
 
 class PhoneNumberScreen extends StatelessWidget {
   const PhoneNumberScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,90 +29,89 @@ class PhoneNumberScreen extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => Login()),
             );
-
           },
         ),
-        //title: Text('Phone Number'),
       ),
-
 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            SizedBox(height: 5-0),
+
+            Text(
+              'What\'s your Phone Number?',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'We\'ll check if you have an account',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(height: 20),
 
 
-            SizedBox(height: 150),
-
-            //TEXT OF EPN
-            Row(
-               // centers the row's content
-              children: [
-                Text(
-                  'Enter Phone Number',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Text(
+              'Enter Phone Number',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: 8),
 
-            //txtfld
-            Row(
-              children: [
-                Expanded( // Makes the TextField take the remaining space
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.add, // "+" sign icon
-                        size: 24, // Adjust icon size
-                        color: Colors.black, // Icon color
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8), // Rounded corners
-                        borderSide: BorderSide(color: Colors.black, width: 1), // Border style
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Inside padding of the text field
-                    ),
-                  ),
+            TextField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  Icons.add,
+                  size: 24,
+                  color: Colors.black,
                 ),
-              ],
-            ),
-            SizedBox(height: 470),
-
-
-            //BUTTON FOR OTP
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => phoneOTP()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                //side: BorderSide(color: Colors.black, width: 1), // border line
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // rounded corners
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.black, width: 1),
                 ),
-                minimumSize: Size(400, 50),
-              ),
-              child: Text('Send OTP',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    //fontWeight: FontWeight.bold
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                hintText: '09xxxxxxxxx', // Add hint text here
+                hintStyle: TextStyle(
+                  color: Colors.grey, // Set the hint text color to gray
                 ),
               ),
             ),
-            SizedBox(height: 12),
-
-
-
           ],
+        ),
+      ),
+
+      // ✅ Fixed button at the bottom
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => phoneOTP()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            minimumSize: Size(double.infinity, 50), // full width
+          ),
+          child: Text(
+            'Send OTP',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );

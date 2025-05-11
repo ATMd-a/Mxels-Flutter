@@ -103,6 +103,12 @@ flutter:
   - assets/qrs/qr6.png
   - assets/gcash_logo.png
   - assets/maya_logo.png
+  - assets/combos/comboA.jpg
+  - assets/combos/comboB.jpg
+  - assets/combos/comboC.jpg
+  - assets/combos/comboD.jpg
+  - assets/bgwallpaper.png
+  - assets/login_wallpaper.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

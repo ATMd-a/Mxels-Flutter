@@ -3,8 +3,13 @@ import 'package:hlep/screens/cart/olpay_receipt.dart';
 
 class OLPaymentScreen extends StatelessWidget {
   final String paymentType; // "GCash" or "Maya Wallet"
+  final double amount;
 
-  const OLPaymentScreen({super.key, required this.paymentType});
+  const OLPaymentScreen({
+    super.key,
+    required this.paymentType,
+    required this.amount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +83,8 @@ class OLPaymentScreen extends StatelessWidget {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Text('PHP 10,000', style: TextStyle(fontSize: 16)),
+                        children: [
+                          Text('PHP ${amount.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
                           Text('Available balance', style: TextStyle(fontSize: 12)),
                         ],
                       ),
@@ -93,18 +98,18 @@ class OLPaymentScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text('Amount', style: TextStyle(fontSize: 16)),
-                      Text('PHP 10,000', style: TextStyle(fontSize: 16)),
+                      Text('PHP ${amount.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
                     ],
                   ),
                   const SizedBox(height: 20),
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text('Total Amount', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text('PHP 10,000', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text('PHP ${amount.toStringAsFixed(2)}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     ],
                   ),
                   const SizedBox(height: 12),

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:hlep/screens/cart/cart_screen.dart';
 import 'package:provider/provider.dart';
@@ -89,46 +90,50 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            SizedBox(
-              height: 130,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: restaurantKeys.length,
-                itemBuilder: (context, index) {
-                  final restoKey = restaurantKeys[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => RestaurantScreen(
-                            restaurantKey: restoKey,
-                            restaurantIndex: index,
-                            initialRestaurantIndex: index, // Pass initialRestaurantIndex here
-                          ),
+
+            // Changed to GridView for small squares layout
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3, // Adjusted for more columns
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 1, // Square aspect ratio
+              ),
+              itemCount: restaurantKeys.length,
+              itemBuilder: (context, index) {
+                final restoKey = restaurantKeys[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => RestaurantScreen(
+                          restaurantKey: restoKey,
+                          restaurantIndex: index,
+                          initialRestaurantIndex: index,
                         ),
-                      );
-                    },
-                    child: Container(
-                      width: 200,
-                      margin: const EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
-                        child: Text(
-                          restoKey,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        restoKey,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 20),
@@ -142,8 +147,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-
-
 
             GridView.builder(
               shrinkWrap: true,

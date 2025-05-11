@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Your App',
-        theme: new ThemeData(scaffoldBackgroundColor: const Color(0xFFEFEFEF)),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
         initialRoute: AppRoutes.login,
         onGenerateRoute: AppRoutes.generateRoute,
       ),
