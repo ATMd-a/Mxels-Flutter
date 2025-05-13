@@ -1,50 +1,70 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:hlep/models/food_item.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Mxels/models/food_item.dart';
 
 class CartProvider with ChangeNotifier {
-  List<Map<String, FoodItem>> _orders = [];
+  List<FoodItem> _cartItems = [];
+  String _orderType = 'pickup';
 
-  List<Map<String, FoodItem>> get orders => _orders;
+  List<FoodItem> get cartItems => _cartItems;
+  String get orderType => _orderType;
 
-  void addOrder(Map<String, FoodItem> order) {
-    _orders.add(order);
+  CartProvider() {
+    _loadCartFromPrefs();
+  }
+
+  void addToCart(FoodItem item) {
+    _cartItems.add(item);
+    _saveCartToPrefs();
     notifyListeners();
   }
 
-  // Add an item to the current order, ensuring one item per category
-  void addToCart(FoodItem item, String category) {
-    if (_orders.isEmpty) {
-      _orders.add({category: item});
-      notifyListeners();
-      return;
+  void removeFromCart(FoodItem item) {
+    _cartItems.remove(item);
+    _saveCartToPrefs();
+    notifyListeners();
+  }
+
+  void setOrderType(String type) {
+    _orderType = type;
+    _saveCartToPrefs();
+    notifyListeners();
+  }
+
+  double getCartTotal() {
+    return _cartItems.fold(0, (sum, item) => sum + item.price);
+  }
+
+  void _saveCartToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cartJson = _cartItems.map((item) => json.encode(item.toJson())).toList();
+    prefs.setStringList('cart_items', cartJson);
+    prefs.setString('order_type', _orderType);
+  }
+
+  void _loadCartFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cartJson = prefs.getStringList('cart_items');
+    final savedOrderType = prefs.getString('order_type');
+
+    if (cartJson != null) {
+      _cartItems = cartJson.map((item) => FoodItem.fromJson(json.decode(item))).toList();
     }
 
-    Map<String, FoodItem> lastOrder = _orders.last;
-
-    // If the category already exists, ignore to avoid duplicates
-    if (lastOrder.containsKey(category)) return;
-
-    // Just add to the current order
-    lastOrder[category] = item;
+    if (savedOrderType != null) {
+      _orderType = savedOrderType;
+    }
 
     notifyListeners();
   }
 
-  void removeFromCart(int orderIndex, String category) {
-    if (orderIndex >= 0 && orderIndex < _orders.length) {
-      Map<String, FoodItem> order = _orders[orderIndex];
-      if (order.containsKey(category)) {
-        order.remove(category);
-        if (order.isEmpty) {
-          _orders.removeAt(orderIndex);
-        }
-        notifyListeners();
-      }
-    }
-  }
-
-  void clearCart() {
-    _orders.clear();
+  void clearCart() async {
+    _cartItems.clear();
+    _orderType = 'pickup';
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('cart_items');
+    prefs.remove('order_type');
     notifyListeners();
   }
 }

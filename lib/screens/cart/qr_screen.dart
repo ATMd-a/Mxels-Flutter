@@ -1,14 +1,14 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-class PickupScreen extends StatefulWidget {
-  const PickupScreen({super.key});
+class QRScreen extends StatefulWidget {
+  const QRScreen({super.key});
 
   @override
-  State<PickupScreen> createState() => _PickupScreenState();
+  State<QRScreen> createState() => _QRScreenState();
 }
 
-class _PickupScreenState extends State<PickupScreen> {
+class _QRScreenState extends State<QRScreen> {
   final List<String> qrImages = [
     'assets/qrs/qr1.png',
     'assets/qrs/qr2.png',

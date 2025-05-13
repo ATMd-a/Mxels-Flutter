@@ -1,77 +1,130 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:hlep/providers/cart_provider.dart';
-import 'package:hlep/models/food_item.dart';
-import 'package:hlep/screens/cart/checkout_screen.dart';
+import 'package:Mxels/providers/cart_provider.dart';
+import 'package:Mxels/models/food_item.dart';
+import 'package:Mxels/routes/app_routes.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  double getOrderTotal(FoodItem item) {
+    return item.price;
+  }
+
+  double getCartTotal(List<FoodItem> orders) {
+    return orders.fold(0, (sum, item) => sum + getOrderTotal(item));
+  }
 
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
-    final orders = cartProvider.orders;
-
-    double getOrderTotal(Map<String, FoodItem> order) {
-      return order.values.fold(0, (sum, item) => sum + item.price);
-    }
-
-    double getCartTotal() {
-      return orders.fold(0, (sum, order) => sum + getOrderTotal(order));
-    }
+    final orders = cartProvider.cartItems;
+    final selectedOrderType = cartProvider.orderType;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Cart'),
+        title: const Text('My Cart', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF146F3D),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.home);
+          },
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+        ),
       ),
-      body: orders.isEmpty
-          ? const Center(child: Text('Your cart is empty.'))
-          : ListView.builder(
-        itemCount: orders.length,
-        itemBuilder: (context, orderIndex) {
-          final order = orders[orderIndex];
-          final orderTotal = getOrderTotal(order);
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Order ${orderIndex + 1}',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '₱${orderTotal.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/bgwallpaper.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: orders.isEmpty
+            ? const Center(child: Text('Your cart is empty.'))
+            : Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView.builder(
+            itemCount: orders.length,
+            itemBuilder: (context, index) {
+              final foodItem = orders[index];
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
-              ),
-              ...order.entries.map((entry) {
-                final category = entry.key;
-                final food = entry.value;
-
-                return ListTile(
-                  leading: Image.asset(food.imageUrl,
-                      width: 50, height: 50, fit: BoxFit.cover),
-                  title: Text(food.name),
-                  subtitle: Text('₱${food.price.toStringAsFixed(2)} - $category'),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.remove_circle, color: Colors.red),
-                    onPressed: () {
-                      cartProvider.removeFromCart(orderIndex, category);
-                    },
-                  ),
-                );
-              }).toList(),
-              const Divider(),
-            ],
-          );
-        },
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.horizontal(left: Radius.circular(8)),
+                        child: Image.asset(
+                          foodItem.imageUrl,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              foodItem.name,
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '₱${foodItem.price.toStringAsFixed(2)}',
+                              style: const TextStyle(fontSize: 14, color: Colors.green),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                          icon: const Icon(Icons.remove_circle, color: Colors.red, size: 30),
+                          onPressed: () {
+                            cartProvider.removeFromCart(foodItem);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -79,14 +132,39 @@ class CartScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Text('Order Type:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Radio<String>(
+                  value: 'pickup',
+                  groupValue: selectedOrderType,
+                  onChanged: (value) {
+                    cartProvider.setOrderType(value!);
+                  },
+                ),
+                const Text('Pickup'),
+                Radio<String>(
+                  value: 'delivery',
+                  groupValue: selectedOrderType,
+                  onChanged: (value) {
+                    cartProvider.setOrderType(value!);
+                  },
+                ),
+                const Text('Delivery'),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Total:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+                const Text('Total:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 Text(
-                  '₱${getCartTotal().toStringAsFixed(2)}',
+                  '₱${getCartTotal(orders).toStringAsFixed(2)}',
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -95,15 +173,24 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: orders.isEmpty
+                onPressed: selectedOrderType.isEmpty || orders.isEmpty
                     ? null
                     : () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CheckoutScreen()),
-                  );
+                  // Navigate based on selected order type
+                  if (selectedOrderType == 'pickup') {
+                    Navigator.pushNamed(context, AppRoutes.checkOutP);
+                  } else if (selectedOrderType == 'delivery') {
+                    Navigator.pushNamed(context, AppRoutes.checkOutD);
+                  }
                 },
-                child: const Text('Proceed to Checkout'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF146F3D),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35),
+                  ),
+                ),
+                child: const Text('Review payment and address', style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
             ),
           ],

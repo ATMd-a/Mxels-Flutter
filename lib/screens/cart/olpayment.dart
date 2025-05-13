@@ -1,14 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:hlep/screens/cart/olpay_receipt.dart';
+// Import the receipt screen
+import 'package:Mxels/routes/app_routes.dart';
 
 class OLPaymentScreen extends StatelessWidget {
-  final String paymentType; // "GCash" or "Maya Wallet"
+  final String paymentType;
   final double amount;
+  final String? orderType; // make it nullable
 
   const OLPaymentScreen({
     super.key,
     required this.paymentType,
     required this.amount,
+    this.orderType, // now it's optional
   });
 
   @override
@@ -16,10 +18,16 @@ class OLPaymentScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final isGcash = paymentType == 'GCash';
     final color = isGcash ? Color(0xFF007DFE) : Color(0xFF06A555);
-    final imagePath = isGcash ? 'assets/gcash_logo.png' : 'assets/maya_logo.png';
+    final imagePath = isGcash ? 'assets/img/gcash_logo.png' : 'assets/img/maya_logo.png';
 
     return Scaffold(
-      appBar: AppBar(title: Text(paymentType)),
+      appBar: AppBar( backgroundColor: color,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),),
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -84,7 +92,7 @@ class OLPaymentScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('PHP ${amount.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
+                          Text('PHP ${10000.toStringAsFixed(2)}', style: TextStyle(fontSize: 16)),
                           Text('Available balance', style: TextStyle(fontSize: 12)),
                         ],
                       ),
@@ -122,18 +130,27 @@ class OLPaymentScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () {
+                      // Navigate to OLPaymentReceiptScreen with the orderType
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OLPaymentReceiptScreen(paymentType: paymentType),
+                          builder: (context) => OLPaymentReceiptScreen(
+                            paymentType: paymentType,
+                            orderType: orderType ?? '',
+                            amount: amount,// Pass orderType here, default to 'pickup' if null
+                          ),
                         ),
                       );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: color,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: const Text('Pay'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        minimumSize: Size(double.infinity, 50),
+                      );
+                    }, child: const Text('Pay'),
+
+                    // ... rest of the ElevatedButton
                   ),
                 ],
               ),

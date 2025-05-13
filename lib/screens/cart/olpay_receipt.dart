@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:Mxels/screens/cart/qr_screen.dart';
+import 'package:Mxels/screens/cart/trackDelivery.dart'; // Import DeliveryScreen
 
 class OLPaymentReceiptScreen extends StatelessWidget {
   final String paymentType;
+  final String orderType; // New parameter to detect order type (pickup or delivery)
+  final double amount; // Add amount here
 
-  const OLPaymentReceiptScreen({super.key, required this.paymentType});
+  const OLPaymentReceiptScreen({
+    super.key,
+    required this.paymentType,
+    required this.orderType, // Accept orderType in the constructor
+    required this.amount, // Add amount to the constructor
+  });
 
   @override
   Widget build(BuildContext context) {
-    final color = paymentType == 'GCash' ? Color(0xFF007DFE) : Color(0xFF06A555);
-    final logoPath = paymentType == 'GCash' ? 'assets/gcash_logo.png' : 'assets/maya_logo.png';
+    final color =
+    paymentType == 'GCash' ? const Color(0xFF007DFE) : const Color(0xFF06A555);
+    final logoPath = paymentType == 'GCash'
+        ? 'assets/gcash_logo.png'
+        : 'assets/maya_logo.png';
 
     return Scaffold(
       appBar: AppBar(title: const Text('Receipt')),
@@ -25,21 +37,22 @@ class OLPaymentReceiptScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     blurRadius: 10,
-                    color: Colors.black.withOpacity(0.1),
-                    offset: const Offset(0, 6),
+                    color: Colors.black12, // Corrected line
+                    offset: Offset(0, 6),
                   ),
                 ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(
+                  const Center(
                     child: Text(
                       'Successfully Paid To',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -53,11 +66,15 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Text('Mxels', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12),
-                      Text('PHP 1000', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12),
+                    children: [
+                      const Text('Mxels',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 12),
+                      Text('PHP ${amount.toStringAsFixed(2)}', // Use amount here
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 12),
                     ],
                   ),
                   const Divider(),
@@ -67,7 +84,8 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Amount Due', style: TextStyle(fontSize: 16)),
+                          const Text('Amount Due',
+                              style: TextStyle(fontSize: 16)),
                           Text(
                             'Payment Method',
                             style: TextStyle(fontSize: 16, color: color),
@@ -77,8 +95,10 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          const Text('PHP 10,000', style: TextStyle(fontSize: 16)),
-                          Text(paymentType, style: const TextStyle(fontSize: 16)),
+                          Text('PHP ${amount.toStringAsFixed(2)}', // And here
+                              style: const TextStyle(fontSize: 16)),
+                          Text(paymentType,
+                              style: const TextStyle(fontSize: 16)),
                         ],
                       ),
                     ],
@@ -97,7 +117,23 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Navigate to QRScreen if it's pickup, or to DeliveryScreen if it's delivery
+                      if (orderType == 'pickup') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const QRScreen()),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const TrackDeliveryScreen()),
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: color,
                       foregroundColor: Colors.white,
@@ -113,3 +149,4 @@ class OLPaymentReceiptScreen extends StatelessWidget {
     );
   }
 }
+

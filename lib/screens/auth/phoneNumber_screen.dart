@@ -1,22 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:hlep/screens/auth/login_screen.dart';
-import 'package:hlep/screens/auth/phoneOTP_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:Mxels/routes/app_routes.dart';
+import 'package:Mxels/data/user_data.dart'; // Import your user data
 
-class phoneNumber extends StatelessWidget {
-  const phoneNumber({super.key});
+class PhoneNumberScreen extends StatefulWidget {
+  const PhoneNumberScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Profile Information',
-      home: const PhoneNumberScreen(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
+  _PhoneNumberScreenState createState() => _PhoneNumberScreenState();
 }
 
-class PhoneNumberScreen extends StatelessWidget {
-  const PhoneNumberScreen({super.key});
+class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
+  TextEditingController phoneController = TextEditingController();
+  String errorMessage = ''; // To store error message
+  String invalidNumberMessage = ''; // To store invalid number message
+  bool isButtonEnabled = false; // To control the button state
+
+  // Function to check if the phone number exists
+  void checkPhoneNumber() {
+    String phoneNumber = phoneController.text;
+
+    // Check if the phone number exists in the user data
+    bool phoneExists = SampleUserData.users.any((user) => user.phoneNumber == phoneNumber);
+
+    if (phoneExists) {
+      // If found, navigate to the next screen with the phone number
+      Navigator.pushNamed(context, AppRoutes.phoneOTP, arguments: phoneNumber);
+    } else {
+      // If not found, show an error message
+      setState(() {
+        errorMessage = 'This phone number is not registered.';
+      });
+    }
+  }
+
+  // Function to handle changes in the phone number field
+  void handlePhoneNumberChange(String value) {
+    setState(() {
+      // Check if the phone number is valid and enable/disable the button
+      if (value.isEmpty) {
+        isButtonEnabled = false;
+        invalidNumberMessage = '';
+      } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+        // Check if the input is not a number
+        invalidNumberMessage = 'Please enter a valid phone number (only numbers allowed)';
+        isButtonEnabled = false;
+      } else {
+        // If the phone number is valid, check if the button can be enabled
+        invalidNumberMessage = '';
+        isButtonEnabled = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +60,16 @@ class PhoneNumberScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Login()),
-            );
+            Navigator.pop(context); // Navigate back to login screen
           },
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 5-0),
-
+            SizedBox(height: 50),
             Text(
               'What\'s your Phone Number?',
               style: TextStyle(
@@ -55,8 +85,6 @@ class PhoneNumberScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-
-
             Text(
               'Enter Phone Number',
               style: TextStyle(
@@ -65,11 +93,16 @@ class PhoneNumberScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
-
             TextField(
+              controller: phoneController,
+              keyboardType: TextInputType.phone, // Allow phone number input
+              inputFormatters: [
+                // Allow only numbers to be entered
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               decoration: InputDecoration(
                 prefixIcon: Icon(
-                  Icons.add,
+                  Icons.phone,
                   size: 24,
                   color: Colors.black,
                 ),
@@ -78,32 +111,50 @@ class PhoneNumberScreen extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.black, width: 1),
                 ),
                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                hintText: '09xxxxxxxxx', // Add hint text here
+                hintText: '09xxxxxxxxx',
                 hintStyle: TextStyle(
-                  color: Colors.grey, // Set the hint text color to gray
+                  color: Colors.grey,
                 ),
               ),
+              onChanged: handlePhoneNumberChange, // Listen for changes in input
             ),
+            // Show error message if phone number not found
+            if (errorMessage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  errorMessage,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            // Show message if input is not a number
+            if (invalidNumberMessage.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  invalidNumberMessage,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
           ],
         ),
       ),
-
-      // ✅ Fixed button at the bottom
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => phoneOTP()),
-            );
-          },
+          onPressed: isButtonEnabled ? checkPhoneNumber : null, // Disable if not valid
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.blue,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            minimumSize: Size(double.infinity, 50), // full width
+            minimumSize: Size(double.infinity, 50),
           ),
           child: Text(
             'Send OTP',

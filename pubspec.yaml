@@ -1,4 +1,4 @@
-name: hlep
+name: Mxels
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -34,8 +34,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  shared_preferences: ^2.2.2
+
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
+
   flutter_test:
     sdk: flutter
 
@@ -48,7 +52,10 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/img/MxelsLogo.png"
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -59,56 +66,59 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-  - assets/jabee.png
-  - assets/googlemaps.png
-  - assets/jollibee/jolli_ricemeal.jpg
-  - assets/jollibee/jolli_ricemeal1.jpg
-  - assets/jollibee/jolli_snacks.jpg
-  - assets/jollibee/jolli_snacks1.jpg
-  - assets/jollibee/jolli_groupmeals.jpg
-  - assets/jollibee/jolli_groupmeals1.jpg
-  - assets/jollibee/jolli_desserts.jpg
-  - assets/jollibee/jolli_desserts1.jpg
-  - assets/chowking/chow_snacks.jpg
-  - assets/chowking/chow_snacks1.jpg
-  - assets/chowking/chow_ricemeal.jpg
-  - assets/chowking/chow_ricemeal1.jpg
-  - assets/chowking/chow_groupmeals.jpg
-  - assets/chowking/chow_groupmeals1.jpg
-  - assets/chowking/chow_desserts.jpg
-  - assets/chowking/chow_desserts1.jpg
-  - assets/greenwich/green_snacks.jpg
-  - assets/greenwich/green_snacks1.jpg
-  - assets/greenwich/green_pizza.jpg
-  - assets/greenwich/green_pizza1.jpg
-  - assets/greenwich/green_pizza2.jpg
-  - assets/greenwich/green_pizza3.jpg
-  - assets/manginasal/mang_snacks.jpg
-  - assets/manginasal/mang_ricemeals.jpg
-  - assets/manginasal/mang_ricemeals1.jpg
-  - assets/manginasal/mang_group.jpg
-  - assets/manginasal/mang_group1.jpg
-  - assets/manginasal/mang_dessert.jpg
-  - assets/manginasal/mang_dessert1.jpg
-  - assets/bev/bev_soft.jpg
-  - assets/bev/bev_soft1.jpg
-  - assets/bev/bev_soft2.jpg
-  - assets/bev/bev_soft3.jpg
-  - assets/bev/bev_soft4.jpg
-  - assets/qrs/qr1.png
-  - assets/qrs/qr2.png
-  - assets/qrs/qr3.png
-  - assets/qrs/qr4.png
-  - assets/qrs/qr5.png
-  - assets/qrs/qr6.png
-  - assets/gcash_logo.png
-  - assets/maya_logo.png
-  - assets/combos/comboA.jpg
-  - assets/combos/comboB.jpg
-  - assets/combos/comboC.jpg
-  - assets/combos/comboD.jpg
-  - assets/bgwallpaper.png
-  - assets/login_wallpaper.png
+    - assets/img/Jollibee.png
+    - assets/img/Chowking.png
+    - assets/img/Mang Inasal.png
+    - assets/img/Greenwich.png
+    - assets/googlemaps.png
+    - assets/img/jollibee/jolli_ricemeal.png
+    - assets/img/jollibee/jolli_ricemeal1.png
+    - assets/img/jollibee/jolli_snacks.png
+    - assets/img/jollibee/jolli_snacks1.png
+    - assets/img/jollibee/jolli_groupmeals.png
+    - assets/img/jollibee/jolli_groupmeals1.png
+    - assets/img/jollibee/jolli_desserts.png
+    - assets/img/jollibee/jolli_desserts1.png
+    - assets/img/chowking/chow_snacks.png
+    - assets/img/chowking/chow_snacks1.png
+    - assets/img/chowking/chow_ricemeal.png
+    - assets/img/chowking/chow_ricemeal1.png
+    - assets/img/chowking/chow_groupmeals.png
+    - assets/img/chowking/chow_groupmeals1.png
+    - assets/img/chowking/chow_desserts.png
+    - assets/img/chowking/chow_desserts1.png
+    - assets/img/greenwich/green_snacks.png
+    - assets/img/greenwich/green_snacks1.png
+    - assets/img/greenwich/green_pizza.png
+    - assets/img/greenwich/green_pizza1.png
+    - assets/img/greenwich/green_pizza2.png
+    - assets/img/greenwich/green_pizza3.png
+    - assets/img/manginasal/mang_snacks.png
+    - assets/img/manginasal/mang_ricemeals.png
+    - assets/img/manginasal/mang_ricemeals1.png
+    - assets/img/manginasal/mang_group.png
+    - assets/img/manginasal/mang_group1.png
+    - assets/img/manginasal/mang_dessert.png
+    - assets/img/manginasal/mang_dessert1.png
+    - assets/img/bev/bev_soft.png
+    - assets/img/bev/bev_soft1.png
+    - assets/img/bev/bev_soft2.png
+    - assets/img/bev/bev_soft3.png
+    - assets/img/bev/bev_soft4.png
+    - assets/img/qrs/qr1.png
+    - assets/img/qrs/qr2.png
+    - assets/img/qrs/qr3.png
+    - assets/img/qrs/qr4.png
+    - assets/img/qrs/qr5.png
+    - assets/img/qrs/qr6.png
+    - assets/img/gcash_logo.png
+    - assets/img/maya_logo.png
+    - assets/img/combos/comboA.png
+    - assets/img/combos/comboB.png
+    - assets/img/combos/comboC.png
+    - assets/img/combos/comboD.png
+    - assets/bgwallpaper.png
+    - assets/login_wallpaper.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

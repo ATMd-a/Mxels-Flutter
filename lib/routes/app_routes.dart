@@ -1,78 +1,91 @@
-import 'package:flutter/material.dart';
-import 'package:hlep/screens/auth/login_screen.dart';
-import 'package:hlep/screens/auth/phoneNumber_screen.dart';
-import 'package:hlep/screens/auth/phoneOTP_screen.dart';
-import 'package:hlep/screens/auth/signup_screen.dart';
-import 'package:hlep/screens/cart/paymentMethod_screen.dart';
-import 'package:hlep/screens/home/home_screen.dart';
-import 'package:hlep/screens/home/restaurant.dart';
-import 'package:hlep/screens/home/summary_screen.dart';
-import 'package:hlep/screens/cart/cart_screen.dart';
-import 'package:hlep/screens/cart/checkout_screen.dart';
-import 'package:hlep/screens/cart/olpayment.dart';
-import 'package:hlep/screens/home/beverage_screen.dart';
-import 'package:hlep/screens/cart/olpay_receipt.dart';
-import 'package:hlep/screens/home/eme.dart';
+import 'app_routes.dart';
+
+export 'package:flutter/material.dart';
+export 'package:Mxels/screens/auth/login_screen.dart';
+export 'package:Mxels/screens/auth/phoneNumber_screen.dart';
+export 'package:Mxels/screens/auth/phoneOTP_screen.dart';
+export 'package:Mxels/screens/auth/signup_screen.dart';
+export 'package:Mxels/screens/auth/facebook.dart';
+
+export 'package:Mxels/screens/home/home_screen.dart';
+export 'package:Mxels/screens/home/restaurant.dart';
+export 'package:Mxels/screens/home/perResto.dart';
+
+export 'package:Mxels/screens/cart/cart_screen.dart';
+export 'package:Mxels/screens/cart/checkoutPickUp_screen.dart';
+export 'package:Mxels/screens/cart/checkoutDelivery_screen.dart';
+export 'package:Mxels/screens/cart/paymentMethod_screen.dart';
+export 'package:Mxels/screens/cart/olpayment.dart';
+export 'package:Mxels/screens/cart/olpay_receipt.dart';
+export 'package:Mxels/screens/cart/qr_screen.dart';
+export 'package:Mxels/screens/cart/trackDelivery.dart';
 
 class AppRoutes {
   static const String login = '/login';
   static const String phoneNumber = '/phoneNumber';
   static const String phoneOTP = '/phoneOTP';
   static const String signup = '/signup';
+  static const String fb = '/fb';
+
   static const String home = '/home';
   static const String restaurant = '/restaurant';
-  static const String summary = '/summary';
+  static const String resto = '/resto';
+
   static const String cart = '/cart';
-  static const String checkOut = '/checkOut';
-  static const String beverage = '/beverage';
+  static const String checkOutP = '/checkOutP';
+  static const String checkOutD = '/checkOutD';
   static const String payment = '/payment';
   static const String olpayment = '/olpayment';
   static const String olreceipt = '/olreceipt';
-  static const String eme = '/eme';
+  static const String qrscreen = '/qrscreen';
+  static const String track = '/track';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
     switch (settings.name) {
+    // Auth routes
       case login:
         return MaterialPageRoute(builder: (_) => Login());
       case phoneNumber:
-        return MaterialPageRoute(builder: (_) => PhoneNumberScreen());
+        return MaterialPageRoute(builder: (_) => const PhoneNumberScreen());
       case phoneOTP:
-        return MaterialPageRoute(builder: (_) => PhoneOTPScreen());
+        if (args is String) {
+          return MaterialPageRoute(
+            builder: (_) => PhonePassScreen(phoneNumber: args),
+          );
+        }
+        return _errorRoute();
       case signup:
-        return MaterialPageRoute(builder: (_) => Signup());
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
+      case fb:
+        return MaterialPageRoute(builder: (_) => const FacebookScreen());
+
+    // Home & Restaurant routes
       case home:
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case restaurant:
-        if (args is Map<String, dynamic> &&
-            args.containsKey('restaurantKey') &&
-            args.containsKey('restaurantIndex') &&
-            args.containsKey('initialRestaurantIndex')) {
+        return MaterialPageRoute(builder: (_) => const RestaurantScreen());
+      case resto:
+        if (args is String) {
           return MaterialPageRoute(
-            builder: (_) => RestaurantScreen(
-              restaurantKey: args['restaurantKey'],
-              restaurantIndex: args['restaurantIndex'],
-              initialRestaurantIndex: args['initialRestaurantIndex'],
-            ),
+            builder: (_) => RestoScreen(restaurantKey: args),
           );
         }
         return _errorRoute();
-      case summary:
-        return MaterialPageRoute(builder: (_) => SummaryScreen());
+
+
+    // Cart and Checkout routes
       case cart:
-        return MaterialPageRoute(builder: (_) => CartScreen());
-      case checkOut:
-        return MaterialPageRoute(builder: (_) => CheckoutScreen());
-      case beverage:
-        return MaterialPageRoute(builder: (_) => const BeverageScreen());
-      case payment:
-        if (args is void Function(String)) {
-          return MaterialPageRoute(
-            builder: (_) => PaymentMethodScreen(onSelect: args),
-          );
-        }
-        return _errorRoute();
+        return MaterialPageRoute(builder: (_) => const CartScreen());
+      case checkOutP:
+        return MaterialPageRoute(builder: (_) => const CheckoutScreenP());
+      case checkOutD:
+        return MaterialPageRoute(builder: (_) => const CheckoutScreenD());
+      case qrscreen:
+        return MaterialPageRoute(builder: (_) => const QRScreen());
+      case track:
+        return MaterialPageRoute(builder: (_) => const TrackDeliveryScreen());
 
 
       case olpayment:
@@ -81,26 +94,20 @@ class AppRoutes {
             builder: (_) => OLPaymentScreen(
               paymentType: args['paymentType'],
               amount: args['amount'],
+              orderType: args['orderType'], // can be null now
             ),
           );
         }
         return _errorRoute();
 
+
       case olreceipt:
-        if (args is String) {
+        if (args is Map<String, dynamic>) {
           return MaterialPageRoute(
-            builder: (_) => OLPaymentReceiptScreen(paymentType: args),
-          );
-        }
-        return _errorRoute();
-      case eme:
-        if (args is Map<String, dynamic> &&
-            args.containsKey('restaurantName') &&
-            args.containsKey('categorizedFoods')) {
-          return MaterialPageRoute(
-            builder: (_) => RestaurantMenuScreen(
-              restaurantName: args['restaurantName'],
-              categorizedFoods: args['categorizedFoods'],
+            builder: (_) => OLPaymentReceiptScreen(
+              paymentType: args['paymentType'],
+              orderType: args['orderType'],
+              amount: args['amount'],
             ),
           );
         }
