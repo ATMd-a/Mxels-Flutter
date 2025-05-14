@@ -30,7 +30,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
         categories.add(food.category);
       }
     }
-    // Add "Beverage" to the categories
     categories.add('Beverage');
     return categories.toList();
   }
@@ -88,7 +87,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
           controller: _tabController,
           children: allCategories.map((category) {
             if (category == 'Beverage') {
-              // Display beverages in a grid with scrolling
               return ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 children: [
@@ -102,7 +100,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                 ],
               );
             } else {
-              // Display food items from restaurants
               return ListView(
                 children: RestaurantMenuData.restoMenus.entries.map((entry) {
                   final restoName = entry.key;
@@ -144,7 +141,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
     );
   }
 
-  // Refactored _buildFoodItemCard for reusability
+
   Widget _buildFoodItemCard(BuildContext context, CartProvider cartProvider, FoodItem food) {
     return SizedBox(
       width: (MediaQuery.of(context).size.width - 12 * 3) / 2,
