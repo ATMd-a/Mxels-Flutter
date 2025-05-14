@@ -1,16 +1,15 @@
-// Import the receipt screen
 import 'package:Mxels/routes/app_routes.dart';
 
 class OLPaymentScreen extends StatelessWidget {
   final String paymentType;
   final double amount;
-  final String? orderType; // make it nullable
+  final String? orderType; 
 
   const OLPaymentScreen({
     super.key,
     required this.paymentType,
     required this.amount,
-    this.orderType, // now it's optional
+    this.orderType, 
   });
 
   @override
@@ -137,7 +136,7 @@ class OLPaymentScreen extends StatelessWidget {
                           builder: (context) => OLPaymentReceiptScreen(
                             paymentType: paymentType,
                             orderType: orderType ?? '',
-                            amount: amount,// Pass orderType here, default to 'pickup' if null
+                            amount: amount,
                           ),
                         ),
                       );
@@ -154,7 +153,7 @@ class OLPaymentScreen extends StatelessWidget {
                       foregroundColor: Colors.white,
                     ),
 
-                    // ... rest of the ElevatedButton
+                    
                   ),
                 ],
               ),
