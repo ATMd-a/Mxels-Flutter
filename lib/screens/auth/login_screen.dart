@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-// Import the routes file - assuming these are in separate files.  Best Practice
 import 'package:Mxels/routes/app_routes.dart';
-//These routes are not used
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class TextAndButtonAction extends State<Login> {
     return Scaffold(
       body: Stack(
         children: [
-          // 🔹 Background image
+          
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -33,7 +32,7 @@ class TextAndButtonAction extends State<Login> {
               ),
             ),
           ),
-          // 🔹 Bottom half rounded container with all content
+          
           Positioned(
             bottom: 0,
             left: 0,
@@ -52,7 +51,7 @@ class TextAndButtonAction extends State<Login> {
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch, // Use stretch for consistent width
+                    crossAxisAlignment: CrossAxisAlignment.stretch, 
                     children: <Widget>[
                       const SizedBox(height: 5),
                       const Text(
@@ -87,7 +86,7 @@ class TextAndButtonAction extends State<Login> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           minimumSize: const Size(
-                              double.infinity, 50), // Use infinity for full width
+                              double.infinity, 50),
                         ),
                         child: const Text(
                           'Continue with Facebook',
@@ -114,7 +113,7 @@ class TextAndButtonAction extends State<Login> {
                           ),
                           minimumSize: const Size(
                               double.infinity,
-                              50), // Use infinity for full width,
+                              50),
                         ),
                         child: const Text(
                           'Continue with Phone Number',
