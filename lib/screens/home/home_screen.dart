@@ -87,8 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         IconButton(
                           icon: const Icon(Icons.person, color: Colors.white),
-                          onPressed: () {
-                            // Profile screen nav (future)
                           },
                         ),
                       ],
@@ -111,7 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // Popular Restaurants
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
