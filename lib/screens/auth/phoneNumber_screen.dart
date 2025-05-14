@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Mxels/routes/app_routes.dart';
-import 'package:Mxels/data/user_data.dart'; // Import your user data
+import 'package:Mxels/data/user_data.dart'; 
 
 class PhoneNumberScreen extends StatefulWidget {
   const PhoneNumberScreen({super.key});
@@ -12,41 +12,34 @@ class PhoneNumberScreen extends StatefulWidget {
 
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
   TextEditingController phoneController = TextEditingController();
-  String errorMessage = ''; // To store error message
-  String invalidNumberMessage = ''; // To store invalid number message
-  bool isButtonEnabled = false; // To control the button state
+  String errorMessage = ''; 
+  String invalidNumberMessage = ''; 
+  bool isButtonEnabled = false; 
 
-  // Function to check if the phone number exists
   void checkPhoneNumber() {
     String phoneNumber = phoneController.text;
 
-    // Check if the phone number exists in the user data
     bool phoneExists = SampleUserData.users.any((user) => user.phoneNumber == phoneNumber);
 
     if (phoneExists) {
-      // If found, navigate to the next screen with the phone number
       Navigator.pushNamed(context, AppRoutes.phoneOTP, arguments: phoneNumber);
     } else {
-      // If not found, show an error message
       setState(() {
         errorMessage = 'This phone number is not registered.';
       });
     }
   }
 
-  // Function to handle changes in the phone number field
+
   void handlePhoneNumberChange(String value) {
     setState(() {
-      // Check if the phone number is valid and enable/disable the button
       if (value.isEmpty) {
         isButtonEnabled = false;
         invalidNumberMessage = '';
       } else if (!RegExp(r'^\d+$').hasMatch(value)) {
-        // Check if the input is not a number
         invalidNumberMessage = 'Please enter a valid phone number (only numbers allowed)';
         isButtonEnabled = false;
       } else {
-        // If the phone number is valid, check if the button can be enabled
         invalidNumberMessage = '';
         isButtonEnabled = true;
       }
@@ -60,7 +53,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to login screen
+            Navigator.pop(context); 
           },
         ),
       ),
@@ -95,9 +88,8 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
             SizedBox(height: 8),
             TextField(
               controller: phoneController,
-              keyboardType: TextInputType.phone, // Allow phone number input
+              keyboardType: TextInputType.phone,
               inputFormatters: [
-                // Allow only numbers to be entered
                 FilteringTextInputFormatter.digitsOnly,
               ],
               decoration: InputDecoration(
@@ -116,9 +108,9 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   color: Colors.grey,
                 ),
               ),
-              onChanged: handlePhoneNumberChange, // Listen for changes in input
+              onChanged: handlePhoneNumberChange,
             ),
-            // Show error message if phone number not found
+            
             if (errorMessage.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
@@ -130,7 +122,7 @@ class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
                   ),
                 ),
               ),
-            // Show message if input is not a number
+           
             if (invalidNumberMessage.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
