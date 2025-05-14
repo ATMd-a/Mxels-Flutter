@@ -191,7 +191,7 @@ class _CheckoutScreenState extends State<CheckoutScreenP> {
         padding: const EdgeInsets.all(12),
         child: Builder(builder: (context) {
           final subtotal = getCartTotal();
-          final total = subtotal; // No delivery fee for pickup
+          final total = subtotal; 
 
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -209,16 +209,16 @@ class _CheckoutScreenState extends State<CheckoutScreenP> {
             final isOnline = _selectedPaymentMethod == 'GCash' ||
                 _selectedPaymentMethod == 'Maya Wallet';
             print(
-                'Selected Payment Method: $_selectedPaymentMethod, isOnline: $isOnline'); // Add this line
+                'Selected Payment Method: $_selectedPaymentMethod, isOnline: $isOnline'); 
             if (isOnline) {
               Navigator.pushNamed(
                 context,
                 AppRoutes.olpayment,
                 arguments: {
                   'paymentType': _selectedPaymentMethod!,
-                  'ordertype': orders, // You might not need this here
+                  'ordertype': orders, 
                   'amount': total,
-                  'orderType': 'pickup', // Explicitly pass 'pickup'
+                  'orderType': 'pickup', 
                 },
               );
             } else if (_selectedPaymentMethod == 'Cash') {
