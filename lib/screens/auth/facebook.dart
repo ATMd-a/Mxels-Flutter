@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:Mxels/models/user_info.dart';
 import 'package:Mxels/providers/user_provider.dart';
 import 'package:Mxels/data/user_data.dart';
-import 'package:Mxels/routes/app_routes.dart'; // Import route
+import 'package:Mxels/routes/app_routes.dart';
 
 class faceb extends StatelessWidget {
   const faceb({super.key});
@@ -71,7 +71,7 @@ class FacebookScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                // Set user data in UserProvider
+               
                 Provider.of<UserProvider>(context, listen: false).setUser(
                   name: user.name,
                   birthday: user.bday,
@@ -80,7 +80,7 @@ class FacebookScreen extends StatelessWidget {
                   password: user.password,
                 );
 
-                // Navigate to the home screen
+                
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.home,
