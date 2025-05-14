@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:Mxels/screens/cart/qr_screen.dart';
-import 'package:Mxels/screens/cart/trackDelivery.dart'; // Import DeliveryScreen
+import 'package:Mxels/screens/cart/trackDelivery.dart'; 
 
 class OLPaymentReceiptScreen extends StatelessWidget {
   final String paymentType;
-  final String orderType; // New parameter to detect order type (pickup or delivery)
-  final double amount; // Add amount here
+  final String orderType;
+  final double amount; 
 
   const OLPaymentReceiptScreen({
     super.key,
     required this.paymentType,
-    required this.orderType, // Accept orderType in the constructor
-    required this.amount, // Add amount to the constructor
+    required this.orderType, 
+    required this.amount,
   });
 
   @override
@@ -44,7 +44,7 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                 boxShadow: const [
                   BoxShadow(
                     blurRadius: 10,
-                    color: Colors.black12, // Corrected line
+                    color: Colors.black12,
                     offset: Offset(0, 6),
                   ),
                 ],
@@ -75,7 +75,7 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 12),
-                      Text('PHP ${amount.toStringAsFixed(2)}', // Use amount here
+                      Text('PHP ${amount.toStringAsFixed(2)}', 
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 12),
@@ -99,7 +99,7 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('PHP ${amount.toStringAsFixed(2)}', // And here
+                          Text('PHP ${amount.toStringAsFixed(2)}', 
                               style: const TextStyle(fontSize: 16)),
                           Text(paymentType,
                               style: const TextStyle(fontSize: 16)),
@@ -122,7 +122,6 @@ class OLPaymentReceiptScreen extends StatelessWidget {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      // Navigate to QRScreen if it's pickup, or to DeliveryScreen if it's delivery
                       if (orderType == 'pickup') {
                         Navigator.push(
                           context,
