@@ -119,6 +119,7 @@ flutter:
     - assets/img/combos/comboD.png
     - assets/bgwallpaper.png
     - assets/login_wallpaper.png
+    - assets/img/MxelsLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,5 +1,6 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
+
+import '../../routes/app_routes.dart';
 
 class QRScreen extends StatefulWidget {
   const QRScreen({super.key});
@@ -10,10 +11,10 @@ class QRScreen extends StatefulWidget {
 
 class _QRScreenState extends State<QRScreen> {
   final List<String> qrImages = [
-    'assets/qrs/qr1.png',
-    'assets/qrs/qr2.png',
-    'assets/qrs/qr3.png',
-    'assets/qrs/qr4.png',
+    'assets/img/qrs/qr1.png',
+    'assets/img/qrs/qr2.png',
+    'assets/img/qrs/qr3.png',
+    'assets/img/qrs/qr4.png',
   ];
 
   late String _currentQr;
@@ -35,7 +36,21 @@ class _QRScreenState extends State<QRScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pickup Details'),
+        title: const Text('QR', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF146F3D),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.home);
+          },
+        ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(60, 100, 60, 0),
@@ -83,12 +98,40 @@ class _QRScreenState extends State<QRScreen> {
             ElevatedButton(
               onPressed: _refreshQr,
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                backgroundColor: Color(0xFF146F3D),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                minimumSize: Size(double.infinity, 50),
+
               ),
               child: const Text(
                 'Refresh QR Code',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomeScreen()), // Updated to use the imported screen
+                    );
+                  },
+                  child: const Text(
+                    'BACK TO MENU',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

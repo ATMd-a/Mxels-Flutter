@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:Mxels/models/user_info.dart';
 import 'package:Mxels/providers/user_provider.dart';
 import 'package:Mxels/data/user_data.dart';
-import 'package:provider/provider.dart';
-import 'package:Mxels/routes/app_routes.dart';
+import 'package:Mxels/routes/app_routes.dart'; // Import route
 
 class faceb extends StatelessWidget {
   const faceb({super.key});
@@ -30,45 +30,40 @@ class FacebookScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(
               context,
               AppRoutes.login,
                   (route) => false, // Removes all previous screens from stack
             );
-
           },
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 50),
-
-            Text(
+            const SizedBox(height: 50),
+            const Text(
               'Mxels is requesting access to:',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
-            Text(
-              ' - Name and profile picture\n - Email address\n - Phone Number',
+            const SizedBox(height: 8),
+            const Text(
+              ' - Name\n - Birthday\n - Email address\n - Phone Number',
               style: TextStyle(
                 fontSize: 14,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
-
-      // ✅ Fixed button at the bottom
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -91,10 +86,9 @@ class FacebookScreen extends StatelessWidget {
                   AppRoutes.home,
                       (route) => false, // Removes all previous screens from stack
                 );
-
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF046CFC),
+                backgroundColor: const Color(0xFF046CFC),
                 side: const BorderSide(color: Color(0xFFCCCCCC), width: 1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -106,7 +100,7 @@ class FacebookScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -124,9 +118,8 @@ class FacebookScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16, color: Colors.black),
               ),
             ),
-            SizedBox(height: 50),
-
-            Align(
+            const SizedBox(height: 50),
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'By Continuing, Mxels will receive ongoing access to the information that you share and Meta will record when Mxels accesses it. Learn more about this sharing and the settings that you have.',
@@ -138,9 +131,8 @@ class FacebookScreen extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            SizedBox(height: 20),
-
-            Align(
+            const SizedBox(height: 20),
+            const Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Mxels Privacy Policy and Terms of Service',
@@ -158,3 +150,4 @@ class FacebookScreen extends StatelessWidget {
     );
   }
 }
+

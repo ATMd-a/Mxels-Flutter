@@ -9,6 +9,12 @@ class UserProvider with ChangeNotifier {
 
   UserInfo? get user => _user;
 
+
+  void setLoggedInUser(UserInfo user) {
+    _user = user;
+    notifyListeners();
+  }
+
   void setUser({
     required String name,
     required String birthday,

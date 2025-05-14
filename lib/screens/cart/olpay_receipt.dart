@@ -18,12 +18,16 @@ class OLPaymentReceiptScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final color =
     paymentType == 'GCash' ? const Color(0xFF007DFE) : const Color(0xFF06A555);
-    final logoPath = paymentType == 'GCash'
-        ? 'assets/gcash_logo.png'
-        : 'assets/maya_logo.png';
+    final logoPath = 'assets/img/MxelsLogo.png';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Receipt')),
+      appBar: AppBar( backgroundColor: color,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),),
       body: Stack(
         alignment: Alignment.topCenter,
         children: [

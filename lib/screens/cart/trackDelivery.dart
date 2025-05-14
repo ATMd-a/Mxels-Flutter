@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:Mxels/routes/app_routes.dart'; // Import for route names
+import 'package:provider/provider.dart';
+import 'package:Mxels/providers/cart_provider.dart'; // Import CartProvider
+import 'package:Mxels/models/food_item.dart'; // Import the FoodItem model
 
 class TrackDeliveryScreen extends StatelessWidget {
   const TrackDeliveryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Get cart data from CartProvider
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -41,7 +47,7 @@ class TrackDeliveryScreen extends StatelessWidget {
             children: [
               _buildTopContainer(), // Top container
               const SizedBox(height: 20),
-              _buildOrderDetailsContainer(), // Bottom container
+              _buildOrderDetailsContainer(cartProvider), // Bottom container, pass cartProvider
             ],
           ),
         ),
@@ -51,13 +57,14 @@ class TrackDeliveryScreen extends StatelessWidget {
 
   Widget _buildTopContainer() {
     return Container(
+      width: double.infinity, // Make container take full width
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9), // Background color for the container
-        borderRadius: BorderRadius.circular(12), // Rounded corners
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12, // Shadow for depth
+            color: Colors.black12,
             blurRadius: 4,
             offset: Offset(0, 2),
           ),
@@ -85,15 +92,21 @@ class TrackDeliveryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderDetailsContainer() {
+  Widget _buildOrderDetailsContainer(CartProvider cartProvider) {
+    // Get order details from the cartProvider
+    final cartItems = cartProvider.cartItems;
+    final orderType = cartProvider.orderType;
+    double orderTotal = cartProvider.getCartTotal();
+
     return Container(
+      width: double.infinity, // Make container take full width
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9), // Background color for the container
-        borderRadius: BorderRadius.circular(12), // Rounded corners
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black12, // Shadow for depth
+            color: Colors.black12,
             blurRadius: 4,
             offset: Offset(0, 2),
           ),
@@ -112,19 +125,69 @@ class TrackDeliveryScreen extends StatelessWidget {
             thickness: 1,
           ),
           const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Order Type:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              Text(
+                orderType,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Store:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              const Text(
+                'SM Lucena City',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30),
+
           const Text(
-            'SM Lucena City', // Store name
+            'Order List',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
+          const SizedBox(height: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: cartItems.map((item) {
+              //  FoodItem does not have quantity.
+              return Text(
+                ' - ${item.name}', // Display each food item
+                style: const TextStyle(fontSize: 14),
+              );
+            }).toList(),
+          ),
+
           const SizedBox(height: 8),
-          const Text(
-            'Maharlika Highway, corner Dalahican Rd, Lucena, 4301 Quezon', // Delivery address
-            style: TextStyle(fontSize: 14),
+          const Divider(
+            color: Colors.grey,
+            thickness: 1,
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Order Total: ₱100.00', //  Replace with your actual order total
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Order Total:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                '₱${orderTotal.toStringAsFixed(2)}', // Display order total
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ],
       ),

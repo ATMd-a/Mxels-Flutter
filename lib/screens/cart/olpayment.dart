@@ -149,6 +149,10 @@ class OLPaymentScreen extends StatelessWidget {
                         minimumSize: Size(double.infinity, 50),
                       );
                     }, child: const Text('Pay'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color,
+                      foregroundColor: Colors.white,
+                    ),
 
                     // ... rest of the ElevatedButton
                   ),
