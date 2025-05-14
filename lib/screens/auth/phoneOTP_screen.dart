@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:Mxels/data/user_data.dart'; // Import your user data
+import 'package:Mxels/data/user_data.dart'; 
 import 'package:Mxels/routes/app_routes.dart';
 
 import '../../models/user_info.dart';
 
 class PhonePassScreen extends StatefulWidget {
-  final String phoneNumber; // Receive the phone number from the previous screen
+  final String phoneNumber;
 
   const PhonePassScreen({Key? key, required this.phoneNumber}) : super(key: key);
 
@@ -16,14 +16,14 @@ class PhonePassScreen extends StatefulWidget {
 
 class _PhonePassScreenState extends State<PhonePassScreen> {
   TextEditingController passwordController = TextEditingController();
-  String errorMessage = ''; // To store error message
-  bool isButtonEnabled = false; // To control the button state
+  String errorMessage = ''; 
+  bool isButtonEnabled = false;
 
-  // Function to check if the password is correct
+  
   void checkPassword() {
     String password = passwordController.text;
 
-    // Find the user with the given phone number
+    
     UserInfo? user = SampleUserData.users.firstWhere(
           (user) => user.phoneNumber == widget.phoneNumber,
       orElse: () => UserInfo(
@@ -36,17 +36,17 @@ class _PhonePassScreenState extends State<PhonePassScreen> {
     );
 
     if (user != null) {
-      // If user is found, check the password
+     
       if (user.password == password) {
-        // If password is correct, navigate to the next screen
+        
         Navigator.pushNamedAndRemoveUntil(
           context,
           AppRoutes.home,
-              (route) => false, // Removes all previous screens from stack
+              (route) => false, 
         );
 
       } else {
-        // If password is incorrect, show an error message
+       
         setState(() {
           errorMessage = 'Incorrect password. Please try again.';
         });
@@ -54,11 +54,11 @@ class _PhonePassScreenState extends State<PhonePassScreen> {
     }
   }
 
-  // Function to handle changes in the password field
+  
   void handlePasswordChange(String value) {
     setState(() {
-      isButtonEnabled = value.isNotEmpty; // Enable button if password is not empty
-      errorMessage = ''; // Clear error message
+      isButtonEnabled = value.isNotEmpty; 
+      errorMessage = ''; 
     });
   }
 
@@ -70,7 +70,7 @@ class _PhonePassScreenState extends State<PhonePassScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back to login screen
+            Navigator.pop(context);
           },
         ),
       ),
@@ -90,7 +90,7 @@ class _PhonePassScreenState extends State<PhonePassScreen> {
             SizedBox(height: 20),
             TextField(
               controller: passwordController,
-              obscureText: true, // Hide password input
+              obscureText: true,
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.lock,
@@ -109,7 +109,7 @@ class _PhonePassScreenState extends State<PhonePassScreen> {
               ),
               onChanged: handlePasswordChange, // Listen for changes in input
             ),
-            // Show error message if password is incorrect
+            t
             if (errorMessage.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
