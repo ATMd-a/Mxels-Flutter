@@ -285,12 +285,12 @@ class _CheckoutScreenDState extends State<CheckoutScreenD> {
         child: Builder(builder: (context) {
           final subtotal = getCartTotal();
 
-          // Get the selected delivery option
+          
           final selectedDelivery = deliveryOptions.firstWhere(
                 (opt) => opt.label == _selectedOrderType,
             orElse: () => DeliveryOption(label: '', price: 0, time: ''),
           );
-          final deliveryFee = 50.0; // Fixed delivery fee
+          final deliveryFee = 50.0; 
           final deliveryOptionPrice = selectedDelivery.price;
           final total = subtotal + deliveryOptionPrice + deliveryFee;
 
@@ -303,7 +303,7 @@ class _CheckoutScreenDState extends State<CheckoutScreenD> {
               _buildSummaryRow('Misc:', deliveryOptionPrice),
               const SizedBox(height: 4),
               _buildSummaryRow('Delivery Fee:', deliveryFee),
-              // Delivery option price here
+             
               const Divider(),
               _buildSummaryRow('Total:', total, isBold: true),
               const SizedBox(height: 10),
@@ -315,16 +315,16 @@ class _CheckoutScreenDState extends State<CheckoutScreenD> {
                     final isOnline = _selectedPaymentMethod == 'GCash' ||
                         _selectedPaymentMethod == 'Maya Wallet';
                     print(
-                        'Selected Payment Method: $_selectedPaymentMethod, isOnline: $isOnline'); // Add this line
+                        'Selected Payment Method: $_selectedPaymentMethod, isOnline: $isOnline');
                     if (isOnline) {
                       Navigator.pushNamed(
                         context,
                         AppRoutes.olpayment,
                         arguments: {
                           'paymentType': _selectedPaymentMethod!,
-                          'ordertype': orders, // You might not need this here
+                          'ordertype': orders,
                           'amount': total,
-                          'orderType': 'delivery', // Explicitly pass 'pickup'
+                          'orderType': 'delivery',
                         },
                       );
                     } else if (_selectedPaymentMethod == 'Cash') {
