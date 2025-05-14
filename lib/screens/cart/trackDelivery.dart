@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:Mxels/routes/app_routes.dart'; // Import for route names
+import 'package:Mxels/routes/app_routes.dart'; 
 import 'package:provider/provider.dart';
-import 'package:Mxels/providers/cart_provider.dart'; // Import CartProvider
-import 'package:Mxels/models/food_item.dart'; // Import the FoodItem model
+import 'package:Mxels/providers/cart_provider.dart';
+import 'package:Mxels/models/food_item.dart';
 
 class TrackDeliveryScreen extends StatelessWidget {
   const TrackDeliveryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Get cart data from CartProvider
     final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
@@ -36,7 +35,7 @@ class TrackDeliveryScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/bgwallpaper.png'), //  Use your background image
+            image: AssetImage('assets/bgwallpaper.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -47,7 +46,7 @@ class TrackDeliveryScreen extends StatelessWidget {
             children: [
               _buildTopContainer(), // Top container
               const SizedBox(height: 20),
-              _buildOrderDetailsContainer(cartProvider), // Bottom container, pass cartProvider
+              _buildOrderDetailsContainer(cartProvider),
             ],
           ),
         ),
@@ -57,7 +56,7 @@ class TrackDeliveryScreen extends StatelessWidget {
 
   Widget _buildTopContainer() {
     return Container(
-      width: double.infinity, // Make container take full width
+      width: double.infinity, 
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
@@ -79,7 +78,7 @@ class TrackDeliveryScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Preparing your order!', // Improved status text
+            'Preparing your order!', 
             style: TextStyle(fontSize: 16, color: Colors.green),
           ),
           const SizedBox(height: 12),
@@ -93,13 +92,12 @@ class TrackDeliveryScreen extends StatelessWidget {
   }
 
   Widget _buildOrderDetailsContainer(CartProvider cartProvider) {
-    // Get order details from the cartProvider
     final cartItems = cartProvider.cartItems;
     final orderType = cartProvider.orderType;
     double orderTotal = cartProvider.getCartTotal();
 
     return Container(
-      width: double.infinity, // Make container take full width
+      width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
@@ -162,9 +160,8 @@ class TrackDeliveryScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: cartItems.map((item) {
-              //  FoodItem does not have quantity.
               return Text(
-                ' - ${item.name}', // Display each food item
+                ' - ${item.name}',
                 style: const TextStyle(fontSize: 14),
               );
             }).toList(),
@@ -184,7 +181,7 @@ class TrackDeliveryScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               Text(
-                '₱${orderTotal.toStringAsFixed(2)}', // Display order total
+                '₱${orderTotal.toStringAsFixed(2)}',
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
